@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
-import sys
 import argparse
 import csv
-import os
 import re
 import mechanize
 from bs4 import BeautifulSoup
@@ -21,23 +19,24 @@ def getContent():
         data = csv.reader(urls, dialect='custom')
         br = mechanize.Browser()
         br.set_handle_robots(False)
-        for record in data:
-            response = br.open(record[0])
+        for url in data:
+            response = br.open(url[0])
             assert br.viewing_html()
             soup = BeautifulSoup(response.read())
             if(opts.content):
                 content = soup.select(opts.content)
             else:
                 raise Exception('A required argument is missing. The content area must be specified.')
-            pagetitle = soup.title.string
-            print pagetitle.encode('utf-8').strip()
+            scrape = []
+            scrape.append(soup.title.string)
             for s in content:
                 s = str(s)
                 s = ''.join(BeautifulSoup(s).findAll(text=True))
                 s = s.encode('utf-8')
                 pat = re.compile(r'\s+')
                 s = pat.sub(' ', s).strip()
-                print s
+                scrape.append(s)
+            print ' '.join(map(str, scrape)) 
 
 
 if __name__ == '__main__':    
