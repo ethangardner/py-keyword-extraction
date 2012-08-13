@@ -19,6 +19,7 @@ def getContent():
         data = csv.reader(urls, dialect='custom')
         br = mechanize.Browser()
         br.set_handle_robots(False)
+        scrape = []
         for url in data:
             response = br.open(url[0])
             assert br.viewing_html()
@@ -27,17 +28,20 @@ def getContent():
                 content = soup.select(opts.content)
             else:
                 raise Exception('A required argument is missing. The content area must be specified.')
-            scrape = []
-            scrape.append(soup.title.string)
+            # scrape.append(soup.title.string)
+            text = soup.title.string
             for s in content:
-                s = str(s)
+                s = str(s).decode('ascii', 'ignore')
                 s = ''.join(BeautifulSoup(s).findAll(text=True))
-                s = s.encode('utf-8')
                 pat = re.compile(r'\s+')
-                s = pat.sub(' ', s).strip()
-                scrape.append(s)
-            print ' '.join(map(str, scrape)) 
+                s = pat.sub(' ', s).strip()          
+                text = text + ': ' + s
+                text = text.strip()
+                scrape.append(text) 
+        return scrape
 
-
+def analyzeKeywords():
+    content = getContent()
+    
 if __name__ == '__main__':    
-    getContent()
+    analyzeKeywords()
