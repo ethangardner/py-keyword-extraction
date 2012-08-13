@@ -5,6 +5,8 @@ import csv
 import re
 import mechanize
 from bs4 import BeautifulSoup
+from topia.termextract import tag
+from topia.termextract import extract
 
 csv.register_dialect('custom', delimiter='\t', doublequote=True, escapechar=None,
                      quotechar='"', quoting=csv.QUOTE_MINIMAL, skipinitialspace=False)
@@ -42,6 +44,11 @@ def getContent():
 
 def analyzeKeywords():
     content = getContent()
+    tagger = tag.Tagger()
+    tagger.initialize()
+    extractor = extract.TermExtractor(tagger)
+    for s in content:
+        print extractor(s)
     
 if __name__ == '__main__':    
     analyzeKeywords()
