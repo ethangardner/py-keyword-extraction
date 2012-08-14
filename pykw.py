@@ -15,6 +15,7 @@ csv.register_dialect('custom', delimiter='\t', doublequote=True, escapechar=None
 parser = argparse.ArgumentParser()
 parser.add_argument('-f', action='store', dest='file', help='Path to the file containing urls')
 parser.add_argument('-c', action='store', dest='content', help='Selector for the main content area')
+parser.add_argument('-o', action='store', dest='output', help='Name of the output file')
 opts = parser.parse_args()
 
 def getContent():
@@ -68,8 +69,9 @@ def analyzeKeywords():
     d = {}
     for i in set(termlist):
         d[i] = termlist.count(i)
-    print json.dumps(d, sort_keys=True, indent=4)
-
+    f = open(opts.output, 'w')
+    f.write(json.dumps(d, sort_keys=True, indent=4))
+    f.close()
     
 if __name__ == '__main__':    
     analyzeKeywords()
