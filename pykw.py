@@ -4,7 +4,7 @@ import argparse
 import csv
 import re
 import mechanize
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Comment
 from topia.termextract import tag
 from topia.termextract import extract
 
@@ -26,11 +26,21 @@ def getContent():
             response = br.open(url[0])
             assert br.viewing_html()
             soup = BeautifulSoup(response.read())
+            
+            # Remove inline scripts, styles and comments
+            for script in soup("script"):
+                soup.script.extract()
+            
+            for style in soup("style"):
+                soup.style.extract()
+                
+            comments = soup.findAll(text=lambda text:isinstance(text, Comment))
+            [comment.extract() for comment in comments]
+            
             if(opts.content):
                 content = soup.select(opts.content)
             else:
                 raise Exception('A required argument is missing. The content area must be specified.')
-            # scrape.append(soup.title.string)
             text = soup.title.string
             for s in content:
                 s = str(s).decode('ascii', 'ignore')
