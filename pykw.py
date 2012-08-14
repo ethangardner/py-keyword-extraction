@@ -3,6 +3,7 @@
 import argparse
 import csv
 import re
+import json
 import mechanize
 from bs4 import BeautifulSoup, Comment
 from topia.termextract import tag
@@ -57,10 +58,18 @@ def analyzeKeywords():
     tagger = tag.Tagger()
     tagger.initialize()
     extractor = extract.TermExtractor(tagger)
+    allterms = []
     for s in content:
         terms = sorted(extractor(s), key=lambda strength: strength[2])
-        print terms
-    
+        allterms.extend(terms)
+    termlist = []
+    for term in allterms:
+        termlist.append(term[0].lower())
+    d = {}
+    for i in set(termlist):
+        d[i] = termlist.count(i)
+    print json.dumps(d, sort_keys=True, indent=4)
+
     
 if __name__ == '__main__':    
     analyzeKeywords()
