@@ -16,6 +16,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-f', action='store', dest='file', help='Path to the file containing urls')
 parser.add_argument('-c', action='store', dest='content', help='Selector for the main content area')
 parser.add_argument('-o', action='store', dest='output', help='Name of the output file')
+parser.add_argument('-l', action='store', dest='length', help='Minimum string length of the tags to return')
 opts = parser.parse_args()
 
 def getContent():
@@ -65,7 +66,11 @@ def analyzeKeywords():
         allterms.extend(terms)
     termlist = []
     for term in allterms:
-        termlist.append(term[0].lower())
+        if(opts.length):
+            if(len(term[0]) >= int(opts.length)):
+                termlist.append(term[0].lower())
+        else:
+            termlist.append(term[0].lower())
     d = {}
     for i in set(termlist):
         d[i] = termlist.count(i)
