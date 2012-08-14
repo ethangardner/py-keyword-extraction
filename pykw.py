@@ -48,7 +48,9 @@ def analyzeKeywords():
     tagger.initialize()
     extractor = extract.TermExtractor(tagger)
     for s in content:
-        print extractor(s)
+        terms = sorted(extractor(s), key=lambda strength: strength[2])
+        print terms
+    
     
 if __name__ == '__main__':    
     analyzeKeywords()
