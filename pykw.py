@@ -4,6 +4,8 @@ import argparse
 import csv
 import re
 import json
+import time
+import threading
 import mechanize
 from bs4 import BeautifulSoup, Comment
 from topia.termextract import tag
@@ -55,6 +57,7 @@ def getContent():
                 text = text + ': ' + s
                 text = text.strip()
                 scrape.append(text)
+            time.sleep(1)
         return scrape
 
 def analyzeKeywords():
