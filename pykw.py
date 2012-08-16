@@ -57,7 +57,7 @@ def getContent():
                 text = text + ': ' + s
                 text = text.strip()
                 scrape.append(text)
-            time.sleep(1)
+            time.sleep(2)
         return scrape
 
 def analyzeKeywords():
@@ -68,8 +68,11 @@ def analyzeKeywords():
     allterms = []
     print "=== Analyzing keywords"
     for s in content:
-        terms = sorted(extractor(s), key=lambda strength: strength[2])
-        allterms.extend(terms)
+        try:
+            terms = sorted(extractor(s), key=lambda strength: strength[2])
+            allterms.extend(terms)
+        except Exception:
+            continue
     termlist = []
     for term in allterms:
         if(opts.length):
@@ -89,7 +92,10 @@ def analyzeKeywords():
         c = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         c.writerow(['Keyword', 'Count'])
         for term in d.items():
-            c.writerow(term)
+            try:
+                c.writerow(term)
+            except Exception:
+                continue
         csvfile.close()
          
     
