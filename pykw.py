@@ -25,7 +25,9 @@ def getContent():
         br = mechanize.Browser()
         br.set_handle_robots(False)
         scrape = []
+        print "=== Sit tight - Fetching content"
         for url in data:
+            print "     - Fetching " + url[0]
             response = br.open(url[0])
             assert br.viewing_html()
             soup = BeautifulSoup(response.read())
@@ -52,7 +54,7 @@ def getContent():
                 s = pat.sub(' ', s).strip()          
                 text = text + ': ' + s
                 text = text.strip()
-                scrape.append(text) 
+                scrape.append(text)
         return scrape
 
 def analyzeKeywords():
@@ -61,6 +63,7 @@ def analyzeKeywords():
     tagger.initialize()
     extractor = extract.TermExtractor(tagger)
     allterms = []
+    print "=== Analyzing keywords"
     for s in content:
         terms = sorted(extractor(s), key=lambda strength: strength[2])
         allterms.extend(terms)
@@ -74,9 +77,17 @@ def analyzeKeywords():
     d = {}
     for i in set(termlist):
         d[i] = termlist.count(i)
-    f = open(opts.output, 'w')
-    f.write(json.dumps(d, sort_keys=True, indent=4))
-    f.close()
+    if(opts.output):
+        f = open(opts.output, 'w')
+        f.write(json.dumps(d, sort_keys=True, indent=4))
+        f.close()
+    else:
+        csvfile = open('data.csv', 'wb')
+        c = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        for term in d.items():
+            c.writerow(term)
+        csvfile.close()
+         
     
 if __name__ == '__main__':    
     analyzeKeywords()
