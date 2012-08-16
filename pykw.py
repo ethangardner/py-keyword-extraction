@@ -84,6 +84,7 @@ def analyzeKeywords():
     else:
         csvfile = open('data.csv', 'wb')
         c = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        c.writerow(['Keyword', 'Count'])
         for term in d.items():
             c.writerow(term)
         csvfile.close()
