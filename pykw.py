@@ -31,10 +31,9 @@ def getContent():
         for url in data:
             print "     - Fetching " + url[0]
             response = br.open(url[0])
-            assert br.viewing_html()
             soup = BeautifulSoup(response.read())
             
-            # Remove inline scripts, styles and comments
+            # Remove inline scripts, styles and comments completely
             for script in soup("script"):
                 soup.script.extract()
             
@@ -53,7 +52,8 @@ def getContent():
                 s = str(s).decode('ascii', 'ignore')
                 s = ''.join(BeautifulSoup(s).findAll(text=True))
                 pat = re.compile(r'\s+')
-                s = pat.sub(' ', s).strip()          
+                s = pat.sub(' ', s).strip()
+                s = re.sub(r'<[^>]*?>', '', s) #strip remaining tag contents
                 text = text + ': ' + s
                 text = text.strip()
                 scrape.append(text)
