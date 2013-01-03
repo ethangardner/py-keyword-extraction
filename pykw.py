@@ -57,7 +57,7 @@ def getContent():
                 text = text + ': ' + s
                 text = text.strip()
                 scrape.append(text)
-            time.sleep(2)
+            time.sleep(2) # throttles requests to be courteous
         return scrape
 
 def analyzeKeywords():
