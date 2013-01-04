@@ -90,23 +90,23 @@ def analyzeKeywords():
                 termlist.append(term[0].lower())
         else:
             termlist.append(term[0].lower())
-    d = {}
+    keywords = {}
     for i in set(termlist):
-        d[i] = termlist.count(i)
-    return d
+        keywords[i] = termlist.count(i)
+    return keywords
     
 def generateExport():
-    d = analyzeKeywords()
+    keywords = analyzeKeywords()
     format = getFormat()
     if(format[1] == 'json'):
         f = open(format[0] + '.' + format[1], 'w')
-        f.write(json.dumps(d, sort_keys=True, indent=4))
+        f.write(json.dumps(keywords, sort_keys=True, indent=4))
         f.close()
     elif(format[1] == 'csv'):
         csvfile = open(format[0] + '.' + format[1], 'wb')
         c = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         c.writerow(['Keyword', 'Count'])
-        for term in d.items():
+        for term in keywords.items():
             try:
                 c.writerow(term)
             except Exception:
