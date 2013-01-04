@@ -27,7 +27,7 @@ def getFormat():
     if(len(format) < 2):
         format.append('csv')
     elif not(format[1] == 'json' or format[1] == 'csv'):
-        print "Please enter a valid file type for the format parameter. Acceptable values are  'json' or 'csv'"
+        print "Please enter a valid file type for the format parameter. Acceptable values are 'json' or 'csv'"
         sys.exit()
     return format
 
