@@ -7,6 +7,7 @@ import json
 import time
 import threading
 import mechanize
+import sys
 from bs4 import BeautifulSoup, Comment
 from topia.termextract import tag
 from topia.termextract import extract
@@ -15,11 +16,20 @@ csv.register_dialect('custom', delimiter='\t', doublequote=True, escapechar=None
                      quotechar='"', quoting=csv.QUOTE_MINIMAL, skipinitialspace=False)
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-f', action='store', dest='file', help='Path to the file containing urls')
+parser.add_argument('-i', action='store', dest='file', help='Path to the input file containing urls')
 parser.add_argument('-c', action='store', dest='content', help='Selector for the main content area')
 parser.add_argument('-o', action='store', dest='output', help='Name of the output file')
 parser.add_argument('-l', action='store', dest='length', help='Minimum string length of the tags to return')
 opts = parser.parse_args()
+
+def getFormat():
+    format = opts.output.rsplit('.', 1)
+    if(len(format) < 2):
+        format.append('csv')
+    elif not(format[1] == 'json' or format[1] == 'csv'):
+        print "Please enter a valid file type for the format parameter. Acceptable values are  'json' or 'csv'"
+        sys.exit()
+    return format
 
 def getContent():
     with open(opts.file) as urls:
@@ -83,12 +93,17 @@ def analyzeKeywords():
     d = {}
     for i in set(termlist):
         d[i] = termlist.count(i)
-    if(opts.output):
-        f = open(opts.output, 'w')
+    return d
+    
+def generateExport():
+    d = analyzeKeywords()
+    format = getFormat()
+    if(format[1] == 'json'):
+        f = open(format[0] + '.' + format[1], 'w')
         f.write(json.dumps(d, sort_keys=True, indent=4))
         f.close()
-    else:
-        csvfile = open('data.csv', 'wb')
+    elif(format[1] == 'csv'):
+        csvfile = open(format[0] + '.' + format[1], 'wb')
         c = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         c.writerow(['Keyword', 'Count'])
         for term in d.items():
@@ -96,8 +111,8 @@ def analyzeKeywords():
                 c.writerow(term)
             except Exception:
                 continue
-        csvfile.close()
+        csvfile.close()        
          
     
 if __name__ == '__main__':    
-    analyzeKeywords()
+    generateExport()
