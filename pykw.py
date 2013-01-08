@@ -16,10 +16,10 @@ csv.register_dialect('custom', delimiter='\t', doublequote=True, escapechar=None
                      quotechar='"', quoting=csv.QUOTE_MINIMAL, skipinitialspace=False)
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-i', action='store', dest='file', help='Path to the input file containing urls')
-parser.add_argument('-c', action='store', dest='content', help='Selector for the main content area')
-parser.add_argument('-o', action='store', dest='output', help='Name of the output file')
-parser.add_argument('-l', action='store', dest='length', help='Minimum string length of the tags to return')
+parser.add_argument('-i, --input', action='store', dest='file', help='Path to the input file containing urls')
+parser.add_argument('-c, --content', action='store', dest='content', help='Selector for the main content area')
+parser.add_argument('-o, --output', action='store', dest='output', help='Name of the output file')
+parser.add_argument('-l, --length', action='store', dest='length', help='Minimum string length of the tags to return')
 opts = parser.parse_args()
 
 def getFormat():
