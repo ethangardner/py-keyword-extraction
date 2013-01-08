@@ -3,7 +3,7 @@ Reads a text file with one url on each line to scrape the contents of a web page
 key terms using natural language processing. Built with python.
 
 ## Requirements
-* Python 2.7.x
+* [Python 2.7.x](http://python.org/download/)
 * [BeautifulSoup 4](http://www.crummy.com/software/BeautifulSoup/)
 * [Mechanize](http://pypi.python.org/pypi/mechanize/)
 * [Topia Term Extract](http://pypi.python.org/pypi/topia.termextract/)
@@ -12,11 +12,10 @@ key terms using natural language processing. Built with python.
 Run the script from the command line. There are a few required options
 
 ### Required Arguments
-* `-f` the name of the txt file containing the URLS
+* `-i` the name of the txt file containing the URLS
 * `-c` the selector for the content region to parse
 
 ### Optional Arguments
-* `-o` the name of the file to be output. This will be output in JSON
-format if specified, otherwise a csv file called "data.csv" will be created
+* `-o` the name of the file to be output. Acceptable formats are csv or json.
 in the directory from which the script is run.
 * `-l` the minimum length of each keyword returned by the script
