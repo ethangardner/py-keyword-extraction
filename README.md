@@ -12,10 +12,10 @@ key terms using natural language processing. Built with python.
 Run the script from the command line. There are a few required options
 
 ### Required Arguments
-* `-i` the name of the txt file containing the URLS
-* `-c` the selector for the content region to parse
+* `-i`, `--input` the name of the txt file containing the URLS
+* `-c`, `--content` the selector for the content region to parse
 
 ### Optional Arguments
-* `-o` the name of the file to be output. Acceptable formats are csv or json.
+* `-o`, `--output` the name of the file to be output. Acceptable formats are csv or json.
 in the directory from which the script is run.
-* `-l` the minimum length of each keyword returned by the script
+* `-l`, `--length` the minimum length of each keyword returned by the script
