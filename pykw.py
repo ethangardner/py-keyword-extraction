@@ -42,17 +42,17 @@ def getContent():
             print "     - Fetching " + url[0]
             response = br.open(url[0])
             soup = BeautifulSoup(response.read())
-            
+
             # Remove inline scripts, styles and comments completely
             for script in soup("script"):
                 soup.script.extract()
-            
+
             for style in soup("style"):
                 soup.style.extract()
-                
+
             comments = soup.findAll(text=lambda text:isinstance(text, Comment))
             [comment.extract() for comment in comments]
-            
+
             if(opts.content):
                 content = soup.select(opts.content)
             else:
@@ -94,7 +94,7 @@ def analyzeKeywords():
     for i in set(termlist):
         keywords[i] = termlist.count(i)
     return keywords
-    
+
 def generateExport():
     keywords = analyzeKeywords()
     format = getFormat()
@@ -111,8 +111,8 @@ def generateExport():
                 c.writerow(term)
             except Exception:
                 continue
-        csvfile.close()        
-         
-    
-if __name__ == '__main__':    
+        csvfile.close()
+
+
+if __name__ == '__main__':
     generateExport()
