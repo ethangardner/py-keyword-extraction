@@ -14,8 +14,8 @@ Run the script from the command line. There are a few required options
 ### Required Arguments
 * `-i`, `--input` the name of the txt file containing the URLS
 * `-c`, `--content` the selector for the content region to parse
+* `-o`, `--output` the name of the file to be output. Acceptable formats are csv or json.
 
 ### Optional Arguments
-* `-o`, `--output` the name of the file to be output. Acceptable formats are csv or json.
-in the directory from which the script is run.
+
 * `-l`, `--length` the minimum length of each keyword returned by the script
